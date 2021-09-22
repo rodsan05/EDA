@@ -1,0 +1,4 @@
+﻿  Anagramas2.cpp
+C:\Users\Rodrigo\Desktop\Universidad\EDA\VSCode\Anagramas\AnagramasCuad\Anagramas2.cpp(17,27): warning C4018: '<': no coinciden signed/unsigned
+C:\Users\Rodrigo\Desktop\Universidad\EDA\VSCode\Anagramas\AnagramasCuad\Anagramas2.cpp(21,27): warning C4018: '<': no coinciden signed/unsigned
+  AnagramasCuad.vcxproj -> C:\Users\Rodrigo\Desktop\Universidad\EDA\VSCode\Anagramas\Debug\AnagramasCuad.exe
