@@ -5,46 +5,71 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-#include <vector>
-#include <string>
-#include <cmath>   
+#include <queue>
+#include <stack>
+
 using namespace std;
 
 
 // función que resuelve el problema
-bool resolver(vector<long>& datos, long ini, long fin, long k) {
+void resolver(queue<int>& q) {
     
-    if(ini == fin-1) return true;
-    else if(abs(datos[ini] - datos[fin - 1]) >= k)
+    queue<int> auxQ;
+    stack<int> auxS;
+ 
+    while(!q.empty())
     {
-        return resolver(datos, ini, (ini+fin)/2, k) && resolver(datos, (ini+fin)/2, fin, k);
+        if(q.front() < 0) {
+
+            auxS.push(q.front());
+            q.pop();
+        }
+        else {
+
+            auxQ.push(q.front());
+            q.pop();
+        }
     }
 
-    else return false;
+    while(!auxS.empty())
+    {
+        q.push(auxS.top());
+        auxS.pop();
+    }
+    while(!auxQ.empty())
+    {
+        q.push(auxQ.front());
+        auxQ.pop();
+    }
 }
 
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
 bool resuelveCaso() {
     // leer los datos de la entrada
-    long n;
+    int n;
     cin >> n;
 
-    if (! std::cin)
+    if (n == 0)
         return false;
+    
+    queue<int> datos;
+    int k;
+    for (int i = 0; i < n; i++) {
+        
+        cin >> k;
+        datos.push(k);
+    }
 
-    vector<long> v(n);
-    
-    long k;
-    cin >> k;
-
-    for (long i = 0; i < n; i++) cin >> v[i];
-    
-    bool sol = resolver(v, 0, n, k);
-    
+    resolver(datos);
     // escribir sol
-    if(sol) cout << "SI" << endl;
-    else cout << "NO" << endl;
+    
+    while (!datos.empty())
+    {
+        cout << datos.front() << " ";
+        datos.pop();
+    }
+    cout << endl;
     
     return true;
     

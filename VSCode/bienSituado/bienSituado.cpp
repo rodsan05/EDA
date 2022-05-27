@@ -1,52 +1,46 @@
 // Nombre del alumno Rodrigo Sánchez Torres
 // Usuario del Juez VJ56
 
-
 #include <iostream>
 #include <iomanip>
 #include <fstream>
 #include <vector>
-#include <string>
-#include <cmath>   
+
 using namespace std;
 
-
-// función que resuelve el problema
-bool resolver(vector<long>& datos, long ini, long fin, long k) {
+// coste log(n), siendo n la longitud del vector
+bool resolver(vector<int>& v, int ini, int fin) {
     
-    if(ini == fin-1) return true;
-    else if(abs(datos[ini] - datos[fin - 1]) >= k)
-    {
-        return resolver(datos, ini, (ini+fin)/2, k) && resolver(datos, (ini+fin)/2, fin, k);
+    int medio = (ini+fin)/2;
+    int n = fin - ini;
+
+    if(n == 1 || n == 0){
+        return v[fin] == fin || v[ini] == ini;
     }
 
-    else return false;
+    if(v[medio] == medio) return true;
+    else if(v[medio] < medio) return resolver(v, medio, fin);
+    else return resolver(v, ini, medio);
 }
 
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
-bool resuelveCaso() {
+void resuelveCaso() {
     // leer los datos de la entrada
-    long n;
+    long int n;
     cin >> n;
-
-    if (! std::cin)
-        return false;
-
-    vector<long> v(n);
+    bool sol = false;
     
-    long k;
-    cin >> k;
-
-    for (long i = 0; i < n; i++) cin >> v[i];
+    if(n != 0)
+    {
+    vector<int> v(n);
+    for (int& e : v) cin >> e;
     
-    bool sol = resolver(v, 0, n, k);
-    
+    sol = resolver(v, 0, n-1);
+    }
     // escribir sol
     if(sol) cout << "SI" << endl;
     else cout << "NO" << endl;
-    
-    return true;
     
 }
 
@@ -59,8 +53,10 @@ int main() {
      #endif 
     
     
-    while (resuelveCaso())
-        ;
+    int numCasos;
+    std::cin >> numCasos;
+    for (int i = 0; i < numCasos; ++i)
+        resuelveCaso();
 
     
     // Para restablecer entrada. Comentar para acepta el reto

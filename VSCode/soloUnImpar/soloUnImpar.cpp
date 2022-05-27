@@ -6,46 +6,48 @@
 #include <iomanip>
 #include <fstream>
 #include <vector>
-#include <string>
-#include <cmath>   
+
 using namespace std;
 
+// la complejidad es log(n), siendo n el tamaño del vector
+int resolver(vector<int>& datos, int ini, int fin) {
 
-// función que resuelve el problema
-bool resolver(vector<long>& datos, long ini, long fin, long k) {
-    
-    if(ini == fin-1) return true;
-    else if(abs(datos[ini] - datos[fin - 1]) >= k)
+    int mitad = (ini+fin)/2;
+    //Num de elementos hasta el final desde el central
+    int dif = fin - mitad;
+
+    //Casos base
+    if (ini == fin-1 || ini == fin)
     {
-        return resolver(datos, ini, (ini+fin)/2, k) && resolver(datos, (ini+fin)/2, fin, k);
+        if(datos[ini]%2 != 0) return datos[ini];
+        else return datos[fin];
     }
 
-    else return false;
+    //Comprueba si el final es igual al central + 2 * num de elementos hasta el final
+    if(datos[fin] == datos[mitad] + (2 * dif)){
+
+        return resolver(datos, ini, mitad);
+    }
+    else return resolver(datos, mitad, fin);
 }
 
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
 bool resuelveCaso() {
     // leer los datos de la entrada
-    long n;
+    int n;
     cin >> n;
 
-    if (! std::cin)
+    if (n == 0)
         return false;
-
-    vector<long> v(n);
     
-    long k;
-    cin >> k;
+    vector<int> v(n);
+    for (int& e : v) cin >> e; 
 
-    for (long i = 0; i < n; i++) cin >> v[i];
-    
-    bool sol = resolver(v, 0, n, k);
+    int sol = resolver(v, 0, n-1);
     
     // escribir sol
-    if(sol) cout << "SI" << endl;
-    else cout << "NO" << endl;
-    
+    cout << sol << endl;
     return true;
     
 }

@@ -6,45 +6,50 @@
 #include <iomanip>
 #include <fstream>
 #include <vector>
-#include <string>
-#include <cmath>   
+
 using namespace std;
 
-
 // función que resuelve el problema
-bool resolver(vector<long>& datos, long ini, long fin, long k) {
+void resolver(vector<char>& sol, int n, int m, int k, vector<bool> usadas) {
     
-    if(ini == fin-1) return true;
-    else if(abs(datos[ini] - datos[fin - 1]) >= k)
-    {
-        return resolver(datos, ini, (ini+fin)/2, k) && resolver(datos, (ini+fin)/2, fin, k);
-    }
+    for(char c = 'a'; c < 'a' + m; c++){
 
-    else return false;
+        sol[k] = c;
+    
+        if(k == n-1){
+
+            for(char& s : sol) cout << s;
+            cout << endl;
+        }
+
+        else{
+
+            usadas[c - 'a'] = true;
+            resolver(sol, n, m, k+1, usadas);
+            usadas[c - 'a'] = false; 
+        }
+    }
 }
 
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
 bool resuelveCaso() {
     // leer los datos de la entrada
-    long n;
-    cin >> n;
+    int m;
+    cin >> m;
 
     if (! std::cin)
         return false;
+    
+    int n;
+    cin >> n;
+    vector<char> sol(n);
+    vector<bool> usadas(m);
 
-    vector<long> v(n);
-    
-    long k;
-    cin >> k;
-
-    for (long i = 0; i < n; i++) cin >> v[i];
-    
-    bool sol = resolver(v, 0, n, k);
-    
+    resolver(sol, n, m, 0, usadas);
+    cout << endl;
     // escribir sol
-    if(sol) cout << "SI" << endl;
-    else cout << "NO" << endl;
+    
     
     return true;
     

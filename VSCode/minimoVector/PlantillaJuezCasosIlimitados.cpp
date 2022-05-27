@@ -6,45 +6,42 @@
 #include <iomanip>
 #include <fstream>
 #include <vector>
-#include <string>
-#include <cmath>   
+
 using namespace std;
 
-
-// función que resuelve el problema
-bool resolver(vector<long>& datos, long ini, long fin, long k) {
+// coste log(n), siendo n la longitud del vector
+int resolver(vector<int>& v, int ini, int fin) {
     
-    if(ini == fin-1) return true;
-    else if(abs(datos[ini] - datos[fin - 1]) >= k)
-    {
-        return resolver(datos, ini, (ini+fin)/2, k) && resolver(datos, (ini+fin)/2, fin, k);
+    int medio = (ini+fin)/2;
+    int n = fin - ini;
+
+    if(n == 0 || n == 1){
+
+        if(v[ini] < v[fin]) return v[ini];
+        else return v[fin];
     }
 
-    else return false;
+    if(v[medio] > v[ini]) return resolver(v, ini, medio);
+    else return resolver(v, medio, fin);
 }
 
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
 bool resuelveCaso() {
     // leer los datos de la entrada
-    long n;
+    int n;
     cin >> n;
 
     if (! std::cin)
         return false;
-
-    vector<long> v(n);
     
-    long k;
-    cin >> k;
+    vector<int> v(n);
+    for(int& e : v) cin >> e;
 
-    for (long i = 0; i < n; i++) cin >> v[i];
-    
-    bool sol = resolver(v, 0, n, k);
+    int sol = resolver(v, 0, n-1);
     
     // escribir sol
-    if(sol) cout << "SI" << endl;
-    else cout << "NO" << endl;
+    cout << sol << endl;
     
     return true;
     

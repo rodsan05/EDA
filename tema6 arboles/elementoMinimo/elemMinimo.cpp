@@ -5,46 +5,39 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-#include <vector>
+
 #include <string>
-#include <cmath>   
+
 using namespace std;
+#include "bintree_eda.h"
 
-
+template <class T>
 // función que resuelve el problema
-bool resolver(vector<long>& datos, long ini, long fin, long k) {
+T resolver(bintree<T> datos) {
     
-    if(ini == fin-1) return true;
-    else if(abs(datos[ini] - datos[fin - 1]) >= k)
-    {
-        return resolver(datos, ini, (ini+fin)/2, k) && resolver(datos, (ini+fin)/2, fin, k);
-    }
-
-    else return false;
+    return datos.elemMin();
 }
 
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
 bool resuelveCaso() {
     // leer los datos de la entrada
-    long n;
-    cin >> n;
-
+    char t;
+    cin >> t;
     if (! std::cin)
         return false;
-
-    vector<long> v(n);
     
-    long k;
-    cin >> k;
-
-    for (long i = 0; i < n; i++) cin >> v[i];
-    
-    bool sol = resolver(v, 0, n, k);
-    
-    // escribir sol
-    if(sol) cout << "SI" << endl;
-    else cout << "NO" << endl;
+    if (t == 'N') {
+        bintree<int> tree = leerArbol(-1);
+        int sol = resolver(tree);
+        cout << sol << endl;
+    }
+    else if (t == 'P') {
+        string s = "#";
+        bintree<string> tree = leerArbol(s);
+        string sol = resolver(tree);
+        cout << sol << endl;
+    }
     
     return true;
     

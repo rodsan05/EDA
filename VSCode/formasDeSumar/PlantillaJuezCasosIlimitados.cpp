@@ -1,50 +1,65 @@
-// Nombre del alumno Rodrigo Sánchez Torres
-// Usuario del Juez VJ56
+// Nombre del alumno .....
+// Usuario del Juez ......
 
 
 #include <iostream>
 #include <iomanip>
 #include <fstream>
 #include <vector>
-#include <string>
-#include <cmath>   
+
 using namespace std;
 
+bool esValida(vector<int>& sol, int k, int s, int& suma){
+
+    for (int j = 0; j < k; j++) suma += sol[j];
+
+    return suma <= s;
+}
 
 // función que resuelve el problema
-bool resolver(vector<long>& datos, long ini, long fin, long k) {
+void resolver(vector<int>& v, vector<int>& sol, vector<bool>& marcas, int n, int s, int k, int& cont, int antI) {
     
-    if(ini == fin-1) return true;
-    else if(abs(datos[ini] - datos[fin - 1]) >= k)
-    {
-        return resolver(datos, ini, (ini+fin)/2, k) && resolver(datos, (ini+fin)/2, fin, k);
-    }
+    for(int i = antI; i < n; i++){
+        
+        if(!marcas[i]){
 
-    else return false;
+            sol[k] = v[i];
+            int suma = 0;
+            if(esValida(sol, k, s, suma)){
+
+                if(suma == s) cont++;
+
+                else{
+                    marcas[i] = true;
+                    resolver(v, sol, marcas, n, s, k+1, cont, i);
+                    marcas[i] = false;
+                }
+            }
+        }
+    }
 }
 
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
 bool resuelveCaso() {
     // leer los datos de la entrada
-    long n;
+    int n;
     cin >> n;
-
     if (! std::cin)
         return false;
-
-    vector<long> v(n);
     
-    long k;
-    cin >> k;
+    int s;
+    cin >> s;
+    vector<int> v(n);
 
-    for (long i = 0; i < n; i++) cin >> v[i];
-    
-    bool sol = resolver(v, 0, n, k);
+    for(int& e : v) cin >> e;
+    vector<int> sol(n);
+    int cont = 0;
+    vector<bool> marcas(n);
+    resolver(v, sol, marcas, n, s, 0, cont, 0);
     
     // escribir sol
-    if(sol) cout << "SI" << endl;
-    else cout << "NO" << endl;
+    cout << cont << endl;
     
     return true;
     

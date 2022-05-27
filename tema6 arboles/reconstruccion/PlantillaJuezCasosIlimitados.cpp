@@ -1,50 +1,32 @@
-// Nombre del alumno Rodrigo Sánchez Torres
-// Usuario del Juez VJ56
+// Nombre del alumno Rodrigo Sánchez
+// Usuario del Juez ......
 
 
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-#include <vector>
-#include <string>
-#include <cmath>   
+#include "bintree_eda.h"
+
 using namespace std;
 
-
 // función que resuelve el problema
-bool resolver(vector<long>& datos, long ini, long fin, long k) {
+bintree<int> resolver(vector<>) {
     
-    if(ini == fin-1) return true;
-    else if(abs(datos[ini] - datos[fin - 1]) >= k)
-    {
-        return resolver(datos, ini, (ini+fin)/2, k) && resolver(datos, (ini+fin)/2, fin, k);
-    }
-
-    else return false;
+    
 }
 
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
 bool resuelveCaso() {
     // leer los datos de la entrada
-    long n;
-    cin >> n;
-
+    
     if (! std::cin)
         return false;
-
-    vector<long> v(n);
     
-    long k;
-    cin >> k;
-
-    for (long i = 0; i < n; i++) cin >> v[i];
-    
-    bool sol = resolver(v, 0, n, k);
+    TipoSolucion sol = resolver(datos);
     
     // escribir sol
-    if(sol) cout << "SI" << endl;
-    else cout << "NO" << endl;
+    
     
     return true;
     

@@ -5,49 +5,51 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
-#include <vector>
-#include <string>
-#include <cmath>   
+#include <list>
+
 using namespace std;
 
-
 // función que resuelve el problema
-bool resolver(vector<long>& datos, long ini, long fin, long k) {
+void resolver(list<int>& l, int k) {
     
-    if(ini == fin-1) return true;
-    else if(abs(datos[ini] - datos[fin - 1]) >= k)
-    {
-        return resolver(datos, ini, (ini+fin)/2, k) && resolver(datos, (ini+fin)/2, fin, k);
-    }
+    list<int>::iterator it=l.begin();
+    while (it != l.end()){
 
-    else return false;
+        if(*it == k) it = l.erase(it);
+
+        else it++;
+    }
 }
 
 // Resuelve un caso de prueba, leyendo de la entrada la
 // configuración, y escribiendo la respuesta
-bool resuelveCaso() {
+void resuelveCaso() {
     // leer los datos de la entrada
-    long n;
+    list<int> datos;
+    
+    int n;
     cin >> n;
+    while(n != -1){
 
-    if (! std::cin)
-        return false;
-
-    vector<long> v(n);
-    
-    long k;
+        datos.push_back(n);
+        cin >> n;
+    }
+    int k;
     cin >> k;
+    
+    for (list<int>::iterator it=datos.begin(); it != datos.end(); it++){
 
-    for (long i = 0; i < n; i++) cin >> v[i];
-    
-    bool sol = resolver(v, 0, n, k);
-    
+        cout << *it << " ";
+    }
+    cout << endl;
+
+    resolver(datos, k);
     // escribir sol
-    if(sol) cout << "SI" << endl;
-    else cout << "NO" << endl;
-    
-    return true;
-    
+    for (list<int>::iterator it=datos.begin(); it != datos.end(); it++){
+
+        cout << *it << " ";
+    }
+    cout << endl;
 }
 
 int main() {
@@ -59,8 +61,10 @@ int main() {
      #endif 
     
     
-    while (resuelveCaso())
-        ;
+    int numCasos;
+    std::cin >> numCasos;
+    for (int i = 0; i < numCasos; ++i)
+        resuelveCaso();
 
     
     // Para restablecer entrada. Comentar para acepta el reto
